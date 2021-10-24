@@ -1,2 +1,5 @@
 disnake
+asyncpg
 importlib
+PyYAML
+python-dotenv

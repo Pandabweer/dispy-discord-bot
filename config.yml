@@ -1,0 +1,3 @@
+bot:
+  token: !ENV "DISCORD_TOKEN"
+  version: 1.0

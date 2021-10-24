@@ -1,14 +1,18 @@
 import disnake
 import asyncio
 import datetime
+import aiohttp
 
 from disnake.ext import commands
 
-class DCBot(commands.Bot):
+class DCBot(commands.AutoShardedBot):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         self.launch_time = datetime.datetime.now()
+        self.http_session = session = aiohttp.ClientSession(
+            headers={'User-Agent': 'python-requests/2.20.0'}
+        )
 
     @classmethod
     def create(cls) -> "DCBot":
@@ -51,5 +55,5 @@ class DCBot(commands.Bot):
         for extension in extensions:
             self.load_extension(extension)
 
-    def on_ready(self) -> None:
+    async def on_ready(self) -> None:
         print('Ready!')
