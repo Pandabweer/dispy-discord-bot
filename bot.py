@@ -4,6 +4,7 @@ import datetime
 import aiohttp
 
 from disnake.ext import commands
+from constants import config
 
 class DCBot(commands.AutoShardedBot):
     def __init__(self, *args, **kwargs) -> None:
@@ -28,9 +29,9 @@ class DCBot(commands.AutoShardedBot):
         intents.integrations = False
 
         return cls(
-            command_prefix=commands.when_mentioned_or('!'),
+            command_prefix=commands.when_mentioned_or(config.default_prefix),
             loop=loop,
-            activity=disnake.Game(name=f"Commands: !help"),
+            activity=disnake.Game(name=config.bot.status),
             case_insensitive=True,
             max_messages=10_000,
             allowed_mentions=disnake.AllowedMentions(
@@ -40,7 +41,7 @@ class DCBot(commands.AutoShardedBot):
                 replied_user=True
             ),
             test_guilds=[832595290174914571],
-            intents=intents,
+            intents=intents
         )
 
     def load_extensions(self) -> None:

@@ -1,3 +1,13 @@
+default_prefix: .
+version: 0.1
+
 bot:
   token: !ENV "DISCORD_TOKEN"
-  version: 1.0
+  status: Commands: !help
+
+database:
+  host: !ENV "DATABASE_HOST"
+  user: !ENV "DATABASE_USER"
+  name: !ENV "DATABASE_NAME"
+  password: !ENV "DATABASE_PASSWORD"
+  port: !ENV "DATABASE_PORT"
