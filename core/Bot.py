@@ -1,32 +1,29 @@
 import disnake
 import asyncio
-import datetime
 import aiohttp
 
-from disnake.ext import commands
-from constants import config
+from datetime import datetime
 
-class DCBot(commands.AutoShardedBot):
+from disnake.ext import commands
+from core.constants import config
+from core.log import logger
+
+
+class Dispy(commands.AutoShardedBot):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-        self.launch_time = datetime.datetime.now()
-        self.http_session = session = aiohttp.ClientSession(
+        self.launch_time = datetime.now()
+        self.http_session = aiohttp.ClientSession(
             headers={'User-Agent': 'python-requests/2.20.0'}
         )
 
     @classmethod
-    def create(cls) -> "DCBot":
+    def create(cls) -> "Dispy":
         """Create and return an instance of a Bot."""
         loop = asyncio.get_event_loop()
 
         intents = disnake.Intents.all()
-        intents.presences = False
-        intents.dm_typing = False
-        intents.dm_reactions = False
-        intents.invites = False
-        intents.webhooks = False
-        intents.integrations = False
 
         return cls(
             command_prefix=commands.when_mentioned_or(config.default_prefix),
@@ -46,15 +43,19 @@ class DCBot(commands.AutoShardedBot):
 
     def load_extensions(self) -> None:
         """Load all enabled extensions."""
+        logger.info(f"Loading extensions")
+
         # Must be done here to avoid a circular import.
         from utils.extensions import EXTENSIONS
 
         extensions = set(EXTENSIONS)  # Create a mutable copy.
-        #if not constants.HelpChannels.enable:
+        # if not constants.HelpChannels.enable:
         #    extensions.remove("bot.exts.help_channels")
 
         for extension in extensions:
+            logger.info(f"Loading extension {extension}")
             self.load_extension(extension)
 
     async def on_ready(self) -> None:
-        print('Ready!')
+        logger.info(f"Connect to Discord and ready to roll")
+        logger.info(f"Start-up time: {round((datetime.now() - self.launch_time).microseconds / 1000)}ms")

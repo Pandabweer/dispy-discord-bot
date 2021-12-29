@@ -1,4 +1,6 @@
 disnake
+coloredlogs
+aiohttp
 asyncpg
 importlib
 PyYAML
