@@ -1,5 +1,5 @@
-from disnake import ApplicationCommandInteraction, Message, Member
-from disnake.ext.commands import AutoShardedBot, Cog, slash_command
+from disnake import Message
+from disnake.ext.commands import AutoShardedBot, Cog
 
 from core import logger
 

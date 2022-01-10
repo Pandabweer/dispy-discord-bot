@@ -19,9 +19,7 @@ class Database:
         user: str,
         database: str,
         password: str,
-        port: int,
-        *args,
-        **kwargs
+        port: int
     ) -> None:
         self.host = host
         self.user = user
@@ -36,10 +34,8 @@ class Database:
 
     async def connect(
         self,
-        *args,
         connection=None,
-        new_connection=False,
-        **kwargs
+        new_connection=False
     ) -> asyncpg.connection.Connection:
         if self.con:
             print("""
@@ -48,7 +44,7 @@ class Database:
             """)
         elif not self.con or new_connection:
             if new_connection:
-                print('Establashing new connection...')
+                print('Establishing new connection...')
                 self.con.close()
 
             try:
@@ -67,7 +63,7 @@ class Database:
             except ConnectionRefusedError:
                 exit("""
                     I could not connect to PostgreSQL,
-                    use the config to input your cridentials.\nExiting...
+                    use the config to input your credentials.\nExiting...
                 """)
             else:
                 print('Connection established')
@@ -95,7 +91,6 @@ class Database:
                 """
                 SELECT
                         guildid,
-                        hentai_channel,
                         prefix
                     FROM guilds
                     WHERE guildid = $1

@@ -19,6 +19,7 @@ with open("./resources/package_names.json", mode="r+") as package_names:
     PACKAGES = json.load(package_names)
 
 
+# noinspection PyUnusedLocal
 async def autocomplete_pypi(inter: ApplicationCommandInteraction, string: str) -> List[str]:
     return sorted([lang for lang in PACKAGES if string.lower() in lang.lower()][:25])
 

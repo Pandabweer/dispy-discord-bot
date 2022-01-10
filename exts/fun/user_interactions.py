@@ -3,8 +3,6 @@ import random
 from disnake import ApplicationCommandInteraction, Message, Member
 from disnake.ext.commands import AutoShardedBot, Cog, slash_command
 
-from core import logger
-
 
 class Fun(Cog, name='fun'):
     def __init__(self, bot: AutoShardedBot) -> None:
