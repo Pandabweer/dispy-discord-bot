@@ -11,5 +11,5 @@ A basic Discord bot.
 __title__ = "dispy"
 __author__ = "Pandabweer"
 __license__ = "MIT"
-__copyright__ = "Copyright 2021-present Pandabweer"
+__copyright__ = "Copyright 2022-present Pandabweer"
 __version__ = "1.0.0"

@@ -21,13 +21,10 @@ class Dispy(commands.AutoShardedBot):
     @classmethod
     def create(cls) -> "Dispy":
         """Create and return an instance of a Bot."""
-        loop = asyncio.get_event_loop()
-
-        intents = disnake.Intents.all()
 
         return cls(
             command_prefix=commands.when_mentioned_or(config.default_prefix),
-            loop=loop,
+            loop=asyncio.get_event_loop(),
             activity=disnake.Game(name=config.bot.status),
             case_insensitive=True,
             max_messages=10_000,
@@ -38,7 +35,8 @@ class Dispy(commands.AutoShardedBot):
                 replied_user=True
             ),
             test_guilds=[832595290174914571],
-            intents=intents
+            owner_ids=[169790484594556928],
+            intents=disnake.Intents.all()
         )
 
     def load_extensions(self) -> None:
@@ -49,8 +47,6 @@ class Dispy(commands.AutoShardedBot):
         from utils.extensions import EXTENSIONS
 
         extensions = set(EXTENSIONS)  # Create a mutable copy.
-        # if not constants.HelpChannels.enable:
-        #    extensions.remove("bot.exts.help_channels")
 
         for extension in extensions:
             logger.info(f"Loading extension {extension}")

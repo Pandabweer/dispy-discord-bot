@@ -12,3 +12,5 @@ INVITE_RE = re.compile(
     r"(?P<invite>[a-zA-Z0-9\-]+)",                # the invite code itself
     flags=re.IGNORECASE
 )
+
+GAME_DESC_RE = r"(?:Overview:\s+)(?s:.)*(?=\WThread)|(?<=Release Date: ).*|(?<=Developer: ).*|(?<=Version: ).*"

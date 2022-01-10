@@ -5,3 +5,4 @@ asyncpg
 importlib
 PyYAML
 python-dotenv
+bs4
