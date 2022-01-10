@@ -21,7 +21,6 @@ class Fun(Cog, name='fun'):
 
     @slash_command(guild_ids=[561662622827806721, 926115595307614249])
     async def kill(self, inter: ApplicationCommandInteraction, member: Member) -> Message:
-        logger.info(f'{inter.author} used the kill command')
         if inter.author.id == member.id:
             # Suicide
             return await inter.response.send_message('Ow awwie why would i hurt myself..?', ephemeral=True)

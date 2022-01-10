@@ -1,3 +1,4 @@
+import random
 import re
 import json
 
@@ -8,18 +9,18 @@ from disnake.utils import escape_markdown
 from disnake.ext import commands
 from disnake.ext.commands import AutoShardedBot, Cog, slash_command
 
-from core import logger
+from core import logger, NEGATIVE_REPLIES, ERROR_COLOR, SUCCESS_COLOR
 from utils import ILLEGAL_CHARACTERS, update_json
 
 URL = 'https://pypi.org/pypi/{package}/json'
 PYPI_ICON = 'https://cdn.discordapp.com/emojis/766274397257334814.png'
 
-with open("./resources/packages_names.json", mode="r+") as package_names:
+with open("./resources/package_names.json", mode="r+") as package_names:
     PACKAGES = json.load(package_names)
 
 
 async def autocomplete_pypi(inter: ApplicationCommandInteraction, string: str) -> List[str]:
-    return [lang for lang in PACKAGES if string.lower() in lang.lower()][:25]
+    return sorted([lang for lang in PACKAGES if string.lower() in lang.lower()][:25])
 
 
 class PyPi(Cog, name="pypi"):
@@ -33,7 +34,7 @@ class PyPi(Cog, name="pypi"):
         package: str = commands.Param(autocomplete=autocomplete_pypi)
     ) -> Message:
         """ Provide information about a specific package from PyPI """
-        embed = Embed(title="Nuh-uh.", colour=0xF47174)  # Soft red
+        embed = Embed(title=random.choice(NEGATIVE_REPLIES), colour=ERROR_COLOR)
         embed.set_thumbnail(url=PYPI_ICON)
 
         error = True
@@ -53,11 +54,11 @@ class PyPi(Cog, name="pypi"):
                     embed.title = f"{info['name']} v{info['version']}"
 
                     embed.url = info["package_url"]
-                    embed.colour = 0xACD1AF  # Soft green
+                    embed.colour = SUCCESS_COLOR
 
                     if not package.lower() in [p.lower() for p in PACKAGES]:
-                        PACKAGES.append(package.lower().capitalize())
-                        await update_json("./resources/packages_names.json", PACKAGES)
+                        PACKAGES.append(info['name'])
+                        await update_json("./resources/package_names.json", PACKAGES)
 
                         embed.set_footer(
                             text="I have added this PyPi to my database",

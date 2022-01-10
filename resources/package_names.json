@@ -1,0 +1,17 @@
+[
+    "PyYAML",
+    "disnake",
+    "discord.js",
+    "asyncpg",
+    "bs4",
+    "praw",
+    "asyncpraw",
+    "DateTime",
+    "aiohttp",
+    "requests",
+    "coloredlogs",
+    "python-dotenv",
+    "setuptools",
+    "keras",
+    "pandas"
+]
