@@ -23,7 +23,6 @@ class Dispy(commands.AutoShardedBot):
         """Create and return an instance of a Bot."""
 
         return cls(
-            command_prefix=commands.when_mentioned_or(config.default_prefix),
             loop=asyncio.get_event_loop(),
             activity=disnake.Game(name=config.bot.status),
             case_insensitive=True,
@@ -49,9 +48,9 @@ class Dispy(commands.AutoShardedBot):
         extensions = set(EXTENSIONS)  # Create a mutable copy.
 
         for extension in extensions:
-            logger.info(f"Loading extension {extension}")
+            logger.debug(f"Loading extension {extension}")
             self.load_extension(extension)
 
     async def on_ready(self) -> None:
         logger.info(f"Connect to Discord and ready to roll")
-        logger.info(f"Start-up time: {round((datetime.now() - self.launch_time).microseconds / 1000)}ms")
+        logger.debug(f"Start-up time: {round((datetime.now() - self.launch_time).microseconds / 1000)}ms")

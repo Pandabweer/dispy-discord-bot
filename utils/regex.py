@@ -13,4 +13,5 @@ INVITE_RE = re.compile(
     flags=re.IGNORECASE
 )
 
+ILLEGAL_CHARACTERS = re.compile(r"[^-_.a-zA-Z0-9]+")
 GAME_DESC_RE = r"(?:Overview:\s+)(?s:.)*(?=\WThread)|(?<=Release Date: ).*|(?<=Developer: ).*|(?<=Version: ).*"

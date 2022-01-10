@@ -1,4 +1,5 @@
 import re
+import json
 
 from typing import List
 
@@ -8,19 +9,17 @@ from disnake.ext import commands
 from disnake.ext.commands import AutoShardedBot, Cog, slash_command
 
 from core import logger
+from utils import ILLEGAL_CHARACTERS, update_json
 
 URL = 'https://pypi.org/pypi/{package}/json'
 PYPI_ICON = 'https://cdn.discordapp.com/emojis/766274397257334814.png'
 
-ILLEGAL_CHARACTERS = re.compile(r"[^-_.a-zA-Z0-9]+")
-PACKAGES = [
-    'Disnake', 'Aiohttp', 'Requests', 'Python-dotenv', 'PyYAML', 'Beautiful Soup', 'Importlib', 'Asyncpg',
-    'Coloredlogs', 'Setuptools'
-    ]
+with open("./resources/packages_names.json", mode="r+") as package_names:
+    PACKAGES = json.load(package_names)
 
 
 async def autocomplete_pypi(inter: ApplicationCommandInteraction, string: str) -> List[str]:
-    return [lang for lang in PACKAGES if string.lower() in lang.lower()]
+    return [lang for lang in PACKAGES if string.lower() in lang.lower()][:25]
 
 
 class PyPi(Cog, name="pypi"):
@@ -29,10 +28,10 @@ class PyPi(Cog, name="pypi"):
 
     @slash_command(name="pypi", guild_ids=[561662622827806721, 926115595307614249])
     async def get_package_info(
-            self,
-            inter: ApplicationCommandInteraction,
-            package: str = commands.Param(autocomplete=autocomplete_pypi)
-        ) -> Message:
+        self,
+        inter: ApplicationCommandInteraction,
+        package: str = commands.Param(autocomplete=autocomplete_pypi)
+    ) -> Message:
         """ Provide information about a specific package from PyPI """
         embed = Embed(title="Nuh-uh.", colour=0xF47174)  # Soft red
         embed.set_thumbnail(url=PYPI_ICON)
@@ -69,10 +68,13 @@ class PyPi(Cog, name="pypi"):
                 else:
                     embed.description = "There was an error when fetching your PyPi package."
                     logger.warn(f"Error when fetching PyPi package: {response.status}.")
-
         if error:
-            await inter.response.send_message(embed=embed, ephemeral=True)
+            return await inter.response.send_message(embed=embed, ephemeral=True)
         else:
+            if not package.lower() in [p.lower() for p in PACKAGES]:
+                PACKAGES.append(package.lower().capitalize())
+                await update_json("./resources/packages_names.json", PACKAGES)
+
             return await inter.response.send_message(embed=embed)
 
 

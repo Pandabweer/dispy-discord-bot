@@ -49,3 +49,16 @@ def _obj_dic(d: dict):
 
 
 config = _obj_dic(_CONFIG_YAML)
+
+PACKAGES = [
+    'Disnake', 'Aiohttp', 'Requests',
+    'Python-dotenv', 'PyYAML', 'Beautiful Soup',
+    'Importlib', 'Asyncpg', 'Coloredlogs',
+    'Setuptools', 'Botocore', 'Urllib3',
+    'Boto3', 'S3transfer', 'Six', 'Datetime',
+    'Python-dateutil', 'Awscli', 'Idna',
+    'Certifi', 'Charset-normalizer', 'Colorama',
+    'Rsa', 'Jmespath', 'Typing-extensions',
+    'Pyasn1', 'Wheel', 'Packaging', 'Numpy',
+    'Pygame', 'Pandas'
+    ]
