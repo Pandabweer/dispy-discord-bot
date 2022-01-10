@@ -55,6 +55,15 @@ class PyPi(Cog, name="pypi"):
                     embed.url = info["package_url"]
                     embed.colour = 0xACD1AF  # Soft green
 
+                    if not package.lower() in [p.lower() for p in PACKAGES]:
+                        PACKAGES.append(package.lower().capitalize())
+                        await update_json("./resources/packages_names.json", PACKAGES)
+
+                        embed.set_footer(
+                            text="I have added this PyPi to my database",
+                            icon_url="https://emoji.gg/assets/emoji/6308_PandaLove.png"
+                            )
+
                     summary = escape_markdown(info["summary"])
 
                     # Summary could be completely empty, or just whitespace.
@@ -71,10 +80,6 @@ class PyPi(Cog, name="pypi"):
         if error:
             return await inter.response.send_message(embed=embed, ephemeral=True)
         else:
-            if not package.lower() in [p.lower() for p in PACKAGES]:
-                PACKAGES.append(package.lower().capitalize())
-                await update_json("./resources/packages_names.json", PACKAGES)
-
             return await inter.response.send_message(embed=embed)
 
 

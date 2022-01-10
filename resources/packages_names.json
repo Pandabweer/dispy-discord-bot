@@ -10,5 +10,10 @@
     "Pandemic",
     "Tensorflow",
     "Pygame",
-    "Aioredis"
+    "Aioredis",
+    "Keras",
+    "Nextcord",
+    "Poop",
+    "Captcha",
+    "Asyncpg"
 ]
