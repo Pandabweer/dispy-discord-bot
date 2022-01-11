@@ -7,9 +7,9 @@ from typing import List
 from disnake import ApplicationCommandInteraction, Message, Embed
 from disnake.utils import escape_markdown
 from disnake.ext import commands
-from disnake.ext.commands import AutoShardedBot, Cog, slash_command
+from disnake.ext.commands import Cog, slash_command
 
-from core import logger, NEGATIVE_REPLIES, ERROR_COLOR, SUCCESS_COLOR
+from core import Dispy, logger, NEGATIVE_REPLIES, ERROR_COLOR, SUCCESS_COLOR
 from utils import ILLEGAL_CHARACTERS, update_json
 
 URL = 'https://pypi.org/pypi/{package}/json'
@@ -25,13 +25,12 @@ async def autocomplete_pypi(inter: ApplicationCommandInteraction, string: str) -
 
 
 class PyPi(Cog, name="pypi"):
-    def __init__(self, bot: AutoShardedBot) -> None:
+    def __init__(self, bot: Dispy) -> None:
         self.bot = bot
 
     @slash_command(name="pypi", guild_ids=[561662622827806721, 926115595307614249])
     async def get_package_info(
-        self,
-        inter: ApplicationCommandInteraction,
+        self, inter: ApplicationCommandInteraction,
         package: str = commands.Param(autocomplete=autocomplete_pypi)
     ) -> Message:
         """ Provide information about a specific package from PyPI """
@@ -85,6 +84,6 @@ class PyPi(Cog, name="pypi"):
             return await inter.response.send_message(embed=embed)
 
 
-def setup(bot: AutoShardedBot) -> None:
+def setup(bot: Dispy) -> None:
     """ Load the PyPi cog """
     bot.add_cog(PyPi(bot))

@@ -13,5 +13,10 @@
     "python-dotenv",
     "setuptools",
     "keras",
-    "pandas"
+    "pandas",
+    "python-decouple",
+    "kaas",
+    "crash",
+    "yes",
+    "discord.py"
 ]

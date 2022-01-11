@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 # File handler
-file = logging.FileHandler("log.log")
+file = logging.FileHandler("bot.log")
 fileformat = logging.Formatter(log_format, datefmt=log_date_format)
 file.setLevel(logging.DEBUG)
 file.setFormatter(fileformat)
