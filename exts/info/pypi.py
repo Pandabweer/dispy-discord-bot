@@ -4,7 +4,7 @@ import json
 
 from typing import List
 
-from disnake import ApplicationCommandInteraction, Message, Embed
+from disnake import ApplicationCommandInteraction, Message, Embed, User
 from disnake.utils import escape_markdown
 from disnake.ext import commands
 from disnake.ext.commands import Cog, slash_command
@@ -28,12 +28,13 @@ class PyPi(Cog, name="pypi"):
     def __init__(self, bot: Dispy) -> None:
         self.bot = bot
 
-    @slash_command(name="pypi", guild_ids=[561662622827806721, 926115595307614249])
+    @slash_command(name="pypi")
     async def get_package_info(
         self, inter: ApplicationCommandInteraction,
-        package: str = commands.Param(autocomplete=autocomplete_pypi)
+        package: SomeCustomClass = commands.Param(autocomplete=autocomplete_pypi)
     ) -> Message:
         """ Provide information about a specific package from PyPI """
+
         embed = Embed(title=random.choice(NEGATIVE_REPLIES), colour=ERROR_COLOR)
         embed.set_thumbnail(url=PYPI_ICON)
 

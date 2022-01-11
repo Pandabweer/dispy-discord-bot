@@ -33,7 +33,7 @@ class Dispy(commands.AutoShardedBot):
                 users=True,
                 replied_user=True
             ),
-            test_guilds=[832595290174914571],
+            test_guilds=[926115595307614249],
             owner_ids=[169790484594556928],
             intents=disnake.Intents.all()
         )

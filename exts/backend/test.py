@@ -1,11 +1,11 @@
 from disnake import Message
 from disnake.ext.commands import AutoShardedBot, Cog
 
-from core import logger
+from core import Dispy, logger
 
 
 class Test(Cog, name='test'):
-    def __init__(self, bot: AutoShardedBot) -> None:
+    def __init__(self, bot: Dispy) -> None:
         self.bot = bot
 
     @Cog.listener('on_message_delete')
@@ -14,6 +14,6 @@ class Test(Cog, name='test'):
         return
 
 
-def setup(bot: AutoShardedBot) -> None:
+def setup(bot: Dispy) -> None:
     """ Load the fun cog """
     bot.add_cog(Test(bot))

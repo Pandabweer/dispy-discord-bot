@@ -3,9 +3,11 @@ import random
 from disnake import ApplicationCommandInteraction, Message, Member
 from disnake.ext.commands import AutoShardedBot, Cog, slash_command
 
+from core import Dispy
+
 
 class Fun(Cog, name='fun'):
-    def __init__(self, bot: AutoShardedBot) -> None:
+    def __init__(self, bot: Dispy) -> None:
         self.bot = bot
 
         self.attack_random = [
@@ -17,8 +19,8 @@ class Fun(Cog, name='fun'):
     def random_attack(self, member: Member) -> str:
         return random.choice(self.attack_random).replace('<enemy_user>', member.mention)
 
-    @slash_command(guild_ids=[561662622827806721, 926115595307614249])
-    async def kill(self, inter: ApplicationCommandInteraction, member: Member) -> Message:
+    @slash_command(name="kill")
+    async def kill_user(self, inter: ApplicationCommandInteraction, member: Member) -> Message:
         if inter.author.id == member.id:
             # Suicide
             return await inter.response.send_message('Ow awwie why would i hurt myself..?', ephemeral=True)
@@ -30,6 +32,6 @@ class Fun(Cog, name='fun'):
         return await inter.response.send_message(self.random_attack(member))
 
 
-def setup(bot: AutoShardedBot) -> None:
+def setup(bot: Dispy) -> None:
     """ Load the fun cog """
     bot.add_cog(Fun(bot))
