@@ -15,6 +15,7 @@ from core import (
     logger,
     NEGATIVE_REPLIES,
     ERROR_COLOR,
+    MEDIUM_COLOR,
     SUCCESS_COLOR
     )
 
@@ -22,8 +23,9 @@ from core import (
 class GeneralInfo(Cog, name='general-info'):
     def __init__(self, bot: Dispy) -> None:
         self.bot = bot
-        
-    def get_info(self, char: str) -> Tuple[str, str]:
+
+    @staticmethod
+    def get_char_info(char: str) -> Tuple[str, str]:
         digit = f"{ord(char):x}"
         if len(digit) <= 4:
             u_code = f"\\u{digit:>04}"
@@ -50,11 +52,46 @@ class GeneralInfo(Cog, name='general-info'):
         elif len(characters) > 50:
             embed.description = f"Too many characters ({len(characters)}/50)"
         else:
-            char_list, raw_list = zip(*(self.get_info(c) for c in characters))
+            char_list, raw_list = zip(*(self.get_char_info(c) for c in characters))
 
             embed.set_author(name="Character info:")
             embed.description = '\n'.join(char_list)
             embed.colour = SUCCESS_COLOR
+
+        return await inter.send(embed=embed, ephemeral=hidden)
+
+    @slash_command(name="ping")
+    async def server_response_delay(
+        self, inter: ApplicationCommandInteraction,
+        hidden: bool = True
+        ) -> Message:
+        """ Gets different measures of latency within the bot """
+
+        panda_happy = "https://emoji.discord.st/emojis/44f1c6c0-eb10-420b-b6c8-73d02da0bcbe.png"
+        panda_displeased = "https://emoji.discord.st/emojis/PandaEr.png"
+        panda_crying = "https://emoji.discord.st/emojis/5d693019-3c03-43a6-b1f6-1351fd52841d.png"
+
+        discord_ping = round(self.bot.latency * 1000)
+        database_ping = 100 # To be implemented
+
+        overall_ping = round((discord_ping + database_ping) / 2)
+
+        embed = Embed()
+
+        if overall_ping < 200:
+            icon = panda_happy
+            embed.colour = SUCCESS_COLOR
+        elif 200 < overall_ping < 400:
+            icon = panda_displeased
+            embed.colour = MEDIUM_COLOR
+        else:
+            icon = panda_crying
+            embed.colour = ERROR_COLOR
+
+        embed.set_author(name=f"Overall ping: {overall_ping} ms", icon_url=icon)
+
+        embed.add_field(name="Discord", value=f"{discord_ping} ms", inline=False)
+        embed.add_field(name="Database", value=f"{database_ping} ms", inline=False)
 
         return await inter.send(embed=embed, ephemeral=hidden)
 

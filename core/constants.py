@@ -52,6 +52,7 @@ config = _obj_dic(_CONFIG_YAML)
 
 # Colors
 ERROR_COLOR = 0xF47174
+MEDIUM_COLOR = 0xFFB52E
 SUCCESS_COLOR = 0xACD1AF
 
 # Bot replies

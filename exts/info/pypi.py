@@ -80,9 +80,9 @@ class PyPi(Cog, name="pypi"):
                     embed.description = "There was an error when fetching your PyPi package."
                     logger.warn(f"Error when fetching PyPi package: {response.status}.")
         if error:
-            return await inter.response.send_message(embed=embed, ephemeral=True)
+            return await inter.send(embed=embed, ephemeral=True)
         else:
-            return await inter.response.send_message(embed=embed)
+            return await inter.send(embed=embed)
 
 
 def setup(bot: Dispy) -> None:
