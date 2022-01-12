@@ -31,8 +31,8 @@ class PyPi(Cog, name="pypi"):
     @slash_command(name="pypi")
     async def get_package_info(
         self, inter: ApplicationCommandInteraction,
-        package: str = commands.Param( autocomplete=autocomplete_pypi)
-    ) -> Message:
+        package: str = commands.Param(autocomplete=autocomplete_pypi)
+        ) -> Message:
         """ Provide information about a specific package from PyPI """
 
         embed = Embed(title=random.choice(NEGATIVE_REPLIES), colour=ERROR_COLOR)
