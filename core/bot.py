@@ -14,6 +14,7 @@ class Dispy(commands.AutoShardedBot):
         super().__init__(*args, **kwargs)
 
         self.launch_time = datetime.now()
+        self.bot_extensions = None
         self.http_session = aiohttp.ClientSession(
             headers={'User-Agent': 'python-requests/2.20.0'}
         )
@@ -23,6 +24,8 @@ class Dispy(commands.AutoShardedBot):
         """Create and return an instance of a Bot."""
 
         return cls(
+            command_prefix=config.default_prefix,
+            help_command=None,
             loop=asyncio.get_event_loop(),
             activity=disnake.Game(name=config.bot.status),
             case_insensitive=True,
@@ -45,9 +48,9 @@ class Dispy(commands.AutoShardedBot):
         # Must be done here to avoid a circular import.
         from utils.extensions import EXTENSIONS
 
-        extensions = set(EXTENSIONS)  # Create a mutable copy.
+        self.bot_extensions = set(EXTENSIONS)  # Create a mutable copy.
 
-        for extension in extensions:
+        for extension in self.bot_extensions:
             logger.debug(f"Loading extension {extension}")
             self.load_extension(extension)
 

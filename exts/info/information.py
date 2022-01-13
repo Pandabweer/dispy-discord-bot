@@ -9,7 +9,7 @@ from disnake.ext import commands
 from disnake.utils import escape_markdown
 from disnake.ext.commands import AutoShardedBot, Cog, slash_command
 
-from utils import time_now_format
+from utils import time_discord_format
 from core import (
     Dispy,
     logger,
@@ -18,6 +18,8 @@ from core import (
     MEDIUM_COLOR,
     SUCCESS_COLOR
     )
+
+from core.constants import config
 
 
 class GeneralInfo(Cog, name='general-info'):
@@ -40,8 +42,7 @@ class GeneralInfo(Cog, name='general-info'):
     @slash_command(name="charinfo")
     async def character_info(
         self, inter: ApplicationCommandInteraction,
-        characters: str,
-        hidden: bool = True
+        characters: str, hidden: bool = True
         ) -> Message:
         """ Shows you information on up to 50 unicode characters """
 
@@ -61,15 +62,10 @@ class GeneralInfo(Cog, name='general-info'):
         return await inter.send(embed=embed, ephemeral=hidden)
 
     @slash_command(name="ping")
-    async def server_response_delay(
-        self, inter: ApplicationCommandInteraction,
-        hidden: bool = True
+    async def server_response_delay(self,
+        inter: ApplicationCommandInteraction, hidden: bool = True
         ) -> Message:
         """ Gets different measures of latency within the bot """
-
-        panda_happy = "https://emoji.discord.st/emojis/44f1c6c0-eb10-420b-b6c8-73d02da0bcbe.png"
-        panda_displeased = "https://emoji.discord.st/emojis/PandaEr.png"
-        panda_crying = "https://emoji.discord.st/emojis/5d693019-3c03-43a6-b1f6-1351fd52841d.png"
 
         discord_ping = round(self.bot.latency * 1000)
         database_ping = 100 # To be implemented
@@ -79,13 +75,13 @@ class GeneralInfo(Cog, name='general-info'):
         embed = Embed()
 
         if overall_ping < 200:
-            icon = panda_happy
+            icon = config.url.panda.happy
             embed.colour = SUCCESS_COLOR
         elif 200 < overall_ping < 400:
-            icon = panda_displeased
+            icon = config.url.panda.displeased
             embed.colour = MEDIUM_COLOR
         else:
-            icon = panda_crying
+            icon = config.url.panda.crying
             embed.colour = ERROR_COLOR
 
         embed.set_author(name=f"Overall ping: {overall_ping} ms", icon_url=icon)
@@ -94,6 +90,40 @@ class GeneralInfo(Cog, name='general-info'):
         embed.add_field(name="Database", value=f"{database_ping} ms", inline=False)
 
         return await inter.send(embed=embed, ephemeral=hidden)
+
+    @slash_command(name="about")
+    async def info_bot(self, inter: ApplicationCommandInteraction) -> Message:
+        """ Get information about the bot """
+        embed = Embed(
+            colour=0xFFC0CB,
+            url=config.url.github.repo
+            )
+
+        embed.set_author(
+            name=self.bot.user,
+            url=config.url.github.repo,
+            icon_url=self.bot.user.display_avatar.url
+            )
+
+        embed.add_field(
+            name="Info",
+            value=(
+                f"Total servers: {len(self.bot.guilds)}\n"
+                f"Created at: {self.bot.user.created_at.strftime('%m/%d/%Y, %H:%M:%S')}\n"
+                f"Got online: {time_discord_format(self.bot.launch_time)}\n\n"
+                f"**Development**\n"
+                f"Feel free to [contribute]({config.url.github.repo} 'GitHub repository'), "
+                "all the help is welcome.\n"
+                "The bot is designed to satisfy both coders and our users."
+                )
+            )
+
+        embed.set_footer(
+            text="Created with much love and exitement",
+            icon_url=config.url.panda.love
+            )
+
+        await inter.send(embed=embed, ephemeral=False)
 
 
 def setup(bot: Dispy) -> None:

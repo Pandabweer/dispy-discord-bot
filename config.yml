@@ -5,6 +5,15 @@ bot:
   token: !ENV "DISCORD_TOKEN"
   status: "test"
 
+url:
+  panda:
+    love: "https://emoji.gg/assets/emoji/6308_PandaLove.png"
+    happy: "https://emoji.discord.st/emojis/44f1c6c0-eb10-420b-b6c8-73d02da0bcbe.png"
+    displeased: "https://emoji.discord.st/emojis/PandaEr.png"
+    crying: "https://emoji.discord.st/emojis/5d693019-3c03-43a6-b1f6-1351fd52841d.png"
+  github:
+    repo: "https://github.com/Pandabweer/dispy-discord-bot"
+
 database:
   host: !ENV "DATABASE_HOST"
   user: !ENV "DATABASE_USER"

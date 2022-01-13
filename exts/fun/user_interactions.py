@@ -1,7 +1,7 @@
 import random
 
 from disnake import ApplicationCommandInteraction, Message, Member
-from disnake.ext.commands import AutoShardedBot, Cog, slash_command
+from disnake.ext.commands import Cog, slash_command
 
 from core import Dispy
 

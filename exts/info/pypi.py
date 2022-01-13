@@ -10,6 +10,7 @@ from disnake.ext import commands
 from disnake.ext.commands import Cog, slash_command
 
 from core import Dispy, logger, NEGATIVE_REPLIES, ERROR_COLOR, SUCCESS_COLOR
+from core.constants import config
 from utils import ILLEGAL_CHARACTERS, update_json
 
 URL = 'https://pypi.org/pypi/{package}/json'
@@ -31,7 +32,8 @@ class PyPi(Cog, name="pypi"):
     @slash_command(name="pypi")
     async def get_package_info(
         self, inter: ApplicationCommandInteraction,
-        package: str = commands.Param(autocomplete=autocomplete_pypi)
+        package: str = commands.Param(autocomplete=autocomplete_pypi),
+        hidden: bool = True
         ) -> Message:
         """ Provide information about a specific package from PyPI """
 
@@ -63,7 +65,7 @@ class PyPi(Cog, name="pypi"):
 
                         embed.set_footer(
                             text="I have added this PyPi to my database",
-                            icon_url="https://emoji.gg/assets/emoji/6308_PandaLove.png"
+                            icon_url=config.url.panda.love
                             )
 
                     summary = escape_markdown(info["summary"])
@@ -82,7 +84,7 @@ class PyPi(Cog, name="pypi"):
         if error:
             return await inter.send(embed=embed, ephemeral=True)
         else:
-            return await inter.send(embed=embed)
+            return await inter.send(embed=embed, ephemeral=hidden)
 
 
 def setup(bot: Dispy) -> None:
