@@ -3,7 +3,7 @@ version: 0.1
 
 bot:
   token: !ENV "DISCORD_TOKEN"
-  status: "test"
+  status: "space invaders"
 
 url:
   panda:

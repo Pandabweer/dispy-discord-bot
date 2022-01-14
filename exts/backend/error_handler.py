@@ -28,4 +28,5 @@ class ErrorHandler(Cog, name="error_handler"):
             logger.error(error)
 
 def setup(bot: Dispy) -> None:
+    """ Load the ErrorHandler cog """
     bot.add_cog(ErrorHandler(bot))

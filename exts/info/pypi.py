@@ -6,8 +6,7 @@ from typing import List
 
 from disnake import ApplicationCommandInteraction, Message, Embed
 from disnake.utils import escape_markdown
-from disnake.ext import commands
-from disnake.ext.commands import Cog, slash_command
+from disnake.ext.commands import Cog, slash_command, Param
 
 from core import Dispy, logger, NEGATIVE_REPLIES, ERROR_COLOR, SUCCESS_COLOR
 from core.constants import config
@@ -32,7 +31,7 @@ class PyPi(Cog, name="pypi"):
     @slash_command(name="pypi")
     async def get_package_info(
         self, inter: ApplicationCommandInteraction,
-        package: str = commands.Param(autocomplete=autocomplete_pypi),
+        package: str = Param(autocomplete=autocomplete_pypi),
         hidden: bool = True
         ) -> Message:
         """ Provide information about a specific package from PyPI """
