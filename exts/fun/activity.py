@@ -59,7 +59,7 @@ class Activity(Cog, name='discord-together'):
             logger.warn("API is overloaded")
             return "I could not create an activity right now, please try again later.", True
 
-        return f"https://discord.gg/{result['code']}", False
+        return f"[Click me ONCE](https://discord.gg/{result['code']} 'Activity url')", False
 
     @slash_command(name="activity")
     async def together_activity(
@@ -70,7 +70,7 @@ class Activity(Cog, name='discord-together'):
         """ Start or join a voice channel activity """
 
         msg, hidden = await self.create_together_url(channel.id, activity)
-        await inter.send(msg, ephemeral=hidden)
+        await inter.send(msg, ephemeral=hidden, delete_after=300)
 
 
 def setup(bot: Dispy) -> None:
