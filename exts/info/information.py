@@ -106,7 +106,7 @@ class GeneralInfo(Cog, name='general-info'):
             )
 
         embed.add_field(
-            name="Info",
+            name="About me",
             value=(
                 f"Total servers: {len(self.bot.guilds)}\n"
                 f"Created at: {self.bot.user.created_at.strftime('%m/%d/%Y, %H:%M:%S')}\n"

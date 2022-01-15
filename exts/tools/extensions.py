@@ -7,6 +7,18 @@ class Extensions(Cog, name="extension"):
     def __init__(self, bot: Dispy) -> None:
         self.bot = bot
 
+    # TODO
+    # Database
+    # Music (Caching)
+    # Bot managing (leave_guild, echo (Advanced), Blacklist) PRIVATE
+    # Documents command
+    # Extension load/unload/reload PRIVATE
+    # Eval command (Safe eval (SnekBox))
+
+    # Suggest command
+    # Remind command
+    # Warn command
+
     @command(name="reload", aliases=["r"])
     @is_owner()
     async def extension_reload(self, ctx: Context, *, ext: str = None):
