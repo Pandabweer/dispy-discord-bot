@@ -8,16 +8,18 @@ class Extensions(Cog, name="extension"):
         self.bot = bot
 
     # TODO
-    # Database
-    # Music (Caching)
-    # Bot managing (leave_guild, echo (Advanced), Blacklist) PRIVATE
-    # Documents command
     # Extension load/unload/reload PRIVATE
-    # Eval command (Safe eval (SnekBox))
-
+    # Documents command
     # Suggest command
+    # Database
+    # Bot managing (leave_guild, echo (Advanced), Blacklist) PRIVATE
     # Remind command
+    # Music (Caching)
     # Warn command
+
+    # Additional
+    # Eval command (Safe eval (SnekBox))
+    # Website
 
     @command(name="reload", aliases=["r"])
     @is_owner()

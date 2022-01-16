@@ -56,4 +56,5 @@ class Dispy(commands.AutoShardedBot):
 
     async def on_ready(self) -> None:
         logger.info(f"Connect to Discord and ready to roll")
+        logger.info(f"logged in for {self.user}")
         logger.debug(f"Start-up time: {round((datetime.now() - self.launch_time).microseconds / 1000)}ms")
