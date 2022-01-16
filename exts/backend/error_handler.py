@@ -30,7 +30,7 @@ class ErrorHandler(Cog, name="error_handler"):
         # Get original error instead of a global Invoke error
         error = getattr(error, 'original', error)
 
-        # Standaard debug to log to catch unkown errors
+        # Standard debug to log to catch unkown errors
         logger.debug(type(error))
 
         if isinstance(error, CommandNotFound):
