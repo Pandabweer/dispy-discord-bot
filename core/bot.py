@@ -18,6 +18,7 @@ class Dispy(commands.AutoShardedBot):
         self.http_session = aiohttp.ClientSession(
             headers={'User-Agent': 'python-requests/2.20.0'}
         )
+        self.bot_messages = {}
 
     @classmethod
     def create(cls) -> "Dispy":
