@@ -19,7 +19,7 @@ class ErrorHandler(Cog, name="error_handler"):
         try:
             await ctx.message.delete()
         except Forbidden:
-            debug.info("Did not have permission to remove the command")
+            logger.debug("Did not have permission to remove the command")
 
     @Cog.listener('on_command_error')
     async def err_handler(self, ctx: Context, error: Any) -> None:
