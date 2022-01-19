@@ -14,7 +14,7 @@ url:
   github:
     repo: "https://github.com/Pandabweer/dispy-discord-bot"
 
-database:
+db:
   host: !ENV "DATABASE_HOST"
   user: !ENV "DATABASE_USER"
   name: !ENV "DATABASE_NAME"

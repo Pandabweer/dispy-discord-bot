@@ -68,7 +68,7 @@ class GeneralInfo(Cog, name='general-info'):
         """ Gets different measures of latency within the bot """
 
         discord_ping = round(self.bot.latency * 1000)
-        database_ping = 100 # To be implemented
+        database_ping = await self.bot.pg.ping
 
         overall_ping = round((discord_ping + database_ping) / 2)
 

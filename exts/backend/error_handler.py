@@ -1,6 +1,6 @@
 from typing import Any
 
-from disnake import HTTPException, Forbidden
+from disnake import HTTPException, Forbidden, NotFound
 from disnake.ext.commands import (
     Context,
     Cog,
@@ -20,6 +20,8 @@ class ErrorHandler(Cog, name="error_handler"):
             await ctx.message.delete()
         except Forbidden:
             logger.debug("Did not have permission to remove the command")
+        except NotFound:
+            logger.debug("Did not found the message that executed the command")
 
     @Cog.listener('on_command_error')
     async def err_handler(self, ctx: Context, error: Any) -> None:

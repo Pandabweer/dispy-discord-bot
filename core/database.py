@@ -4,28 +4,17 @@ import asyncpg
 from datetime import datetime
 from typing import Union
 
-
-class Guild:
-    def __init__(self, record: asyncpg.Record) -> None:
-        self.id = record[0]
-        self.prefix = record[1]
+from core.constants import config
 
 
 class Database:
     """ Postgre database class """
-    def __init__(
-        self,
-        host: str,
-        user: str,
-        database: str,
-        password: str,
-        port: int
-    ) -> None:
-        self.host = host
-        self.user = user
-        self.database = database
-        self.password = password
-        self.port = port
+    def __init__(self) -> None:
+        self.host = config.db.host
+        self.user = config.db.user
+        self.name = config.db.name
+        self.password = config.db.password
+        self.port = config.db.port
 
         self.con = None
 
@@ -52,7 +41,7 @@ class Database:
                 connection = await asyncpg.connect(
                     host=self.host,
                     user=self.user,
-                    database=self.database,
+                    database=self.name,
                     password=self.password,
                     port=self.port
                 )
@@ -80,21 +69,3 @@ class Database:
         await self.con.fetchrow("SELECT * FROM guilds LIMIT 1")
 
         return int((datetime.now() - past).microseconds / 1000)
-
-    @property
-    async def guild_amount(self):
-        return len(await self.con.fetchrow("SELECT guildid FROM guilds"))
-
-    async def get_guild(self, guild_id: Union[int, str]) -> Guild:
-        return Guild(
-            await self.con.fetchrow(
-                """
-                SELECT
-                        guildid,
-                        prefix
-                    FROM guilds
-                    WHERE guildid = $1
-                """,
-                str(guild_id)
-            )
-        )

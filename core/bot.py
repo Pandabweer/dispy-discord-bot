@@ -5,6 +5,7 @@ import aiohttp
 from datetime import datetime
 
 from disnake.ext import commands
+from core.database import Database
 from core.constants import config
 from core.log import logger
 
@@ -15,6 +16,7 @@ class Dispy(commands.AutoShardedBot):
 
         self.launch_time = datetime.now()
         self.bot_extensions = None
+        self.pg = Database()
         self.http_session = aiohttp.ClientSession(
             headers={'User-Agent': 'python-requests/2.20.0'}
         )
@@ -58,3 +60,4 @@ class Dispy(commands.AutoShardedBot):
         logger.info(f"Connect to Discord and ready to roll")
         logger.info(f"Logged in for {self.user} the prefix is: {self.command_prefix}")
         logger.debug(f"Start-up time: {round((datetime.now() - self.launch_time).microseconds / 1000)}ms")
+        logger.debug(f"Database latency {await self.pg.ping}ms")
