@@ -32,7 +32,7 @@ class ErrorHandler(Cog, name="error_handler"):
         # Get original error instead of a global Invoke error
         error = getattr(error, 'original', error)
 
-        # Standard debug to log to catch unkown errors
+        # Standard debug to log to catch unknown errors
         logger.debug(type(error))
 
         if isinstance(error, CommandNotFound):
@@ -40,8 +40,25 @@ class ErrorHandler(Cog, name="error_handler"):
         elif isinstance(error, HTTPException):
             error.text = error.text.replace("\n", " ")
             logger.warn(f"HTTPException: {error.text}")
+        elif isinstance(error, NotFound):
+            error.text = error.text.replace("\n", " ")
+            logger.warn(f"NotFound: {error.text}")
         elif isinstance(error, CheckFailure):
             logger.debug(f"Check failed for {ctx.author} most likely has no permission to execute this")
+        else:
+            logger.error(error)
+
+    @Cog.listener('on_slash_command_error')
+    async def slash_err_handler(self, inter: Context, error: Any) -> None:
+        # Get original error instead of a global Invoke error
+        error = getattr(error, 'original', error)
+
+        # Standard debug to log to catch unknown errors
+        logger.debug(type(error))
+
+        if isinstance(error, NotFound):
+            error.text = error.text.replace("\n", " ")
+            logger.warn(f"NotFound: {error.text}")
         else:
             logger.error(error)
 

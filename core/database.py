@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import Union
 
 from core.constants import config
+from core.log import logger
 
 
 class Database:
@@ -25,46 +26,48 @@ class Database:
         self,
         connection=None,
         new_connection=False
-    ) -> asyncpg.connection.Connection:
+        ) -> asyncpg.connection.Connection:
         if self.con:
-            print("""
+            logger.debug("""
                 There already is a connection.
                 Use "new_connection=True" kwarg to make a new connection
-            """)
+                """)
         elif not self.con or new_connection:
             if new_connection:
-                print('Establishing new connection...')
+                logger.debug('Establishing new connection...')
                 self.con.close()
 
             try:
-                print('Connecting to PostgreSQL...')
+                logger.debug('Connecting to PostgreSQL...')
                 connection = await asyncpg.connect(
                     host=self.host,
                     user=self.user,
                     database=self.name,
                     password=self.password,
                     port=self.port
-                )
+                    )
             except asyncpg.exceptions.InvalidCatalogNameError:
-                print(f"I could not find a database named: {self.database}")
+                logger.debug(f"I could not find a database named: {self.database}")
             except asyncpg.exceptions.InvalidPasswordError:
+                logger.critical("Invalid PostrgeSQL password or username")
                 exit("Invalid PostrgeSQL password or username.\nExiting...")
             except ConnectionRefusedError:
+                logger.critical("I could not connect to PostgreSQL")
                 exit("""
                     I could not connect to PostgreSQL,
                     use the config to input your credentials.\nExiting...
-                """)
+                    """)
             else:
-                print('Connection established')
+                logger.debug('Connection established')
 
         self.con = connection or self.con
         return connection or self.con
 
-    async def close(self):
+    async def close(self) -> None:
         self.con.close()
 
     @property
-    async def ping(self):
+    async def ping(self) -> int:
         past = datetime.now()
         await self.con.fetchrow("SELECT * FROM guilds LIMIT 1")
 
