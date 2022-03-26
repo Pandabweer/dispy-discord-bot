@@ -51,7 +51,7 @@ class Activity(Cog, name='discord-together'):
             self.temp_solution.append(rand_img)
 
         await channel.send(random.choice([m.mention for m in self.bot.get_guild(561662622827806721).members]))
-        await channel.send(rand_imgf)
+        await channel.send(rand_img)
 
     async def create_together_url(self, voice_channel_id: int, option: str) -> Tuple[str, bool]:
         data = {
