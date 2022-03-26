@@ -33,15 +33,13 @@ class Activity(Cog, name='discord-together'):
     def cog_unload(self):
         self.monkey.cancel()
 
-    @tasks.loop(minutes=1.0)
+    @tasks.loop(days=4.0)
     async def monkey(self):
         await self.bot.wait_until_ready()
         channel = self.bot.get_channel(814647436575244298)
         url = f"https://www.googleapis.com/customsearch/v1?key={config.google.API_KEY}&cx={config.google.SEARCH_ENGINE_ID}&q=monkey&searchType=image"
-        print(url)
 
         async with self.bot.http_session.get(url) as r:
-            print(r)
             data = json.loads((await r.text()))
             results = data['items']
             img = random.choice(results)['link']
