@@ -1,4 +1,5 @@
 import json
+import math
 import random
 
 from typing import Tuple
@@ -29,22 +30,27 @@ class Activity(Cog, name='discord-together'):
     def __init__(self, bot: Dispy) -> None:
         self.bot = bot
         self.monkey.start()
+        self.temp_solution = []
 
     def cog_unload(self):
         self.monkey.cancel()
 
-    @tasks.loop(days=4.0)
+    @tasks.loop(minutes=1.0, reconnect=True)
     async def monkey(self):
         await self.bot.wait_until_ready()
         channel = self.bot.get_channel(814647436575244298)
-        url = f"https://www.googleapis.com/customsearch/v1?key={config.google.API_KEY}&cx={config.google.SEARCH_ENGINE_ID}&q=monkey&searchType=image"
+        index = math.floor(len(self.temp_solution)/10) * 11
+        url = f"https://www.googleapis.com/customsearch/v1?key={config.google.API_KEY}&cx={config.google.SEARCH_ENGINE_ID}&q=monkey&searchType=image&start={index}"
 
         async with self.bot.http_session.get(url) as r:
             data = json.loads((await r.text()))
-            results = data['items']
-            img = random.choice(results)['link']
 
-        await channel.send(img)
+            links = [x["link"] for x in data['items']] - self.temp_solution
+            rand_img = random.choice(links)
+
+            self.temp_solution.append(rand_img)
+
+        await channel.send(rand_img)
 
     async def create_together_url(self, voice_channel_id: int, option: str) -> Tuple[str, bool]:
         data = {
