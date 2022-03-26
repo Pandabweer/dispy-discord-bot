@@ -45,7 +45,7 @@ class Activity(Cog, name='discord-together'):
         async with self.bot.http_session.get(url) as r:
             data = json.loads((await r.text()))
 
-            links = [x["link"] for x in data['items']] - self.temp_solution
+            links = [x["link"] for x in data['items'] if not x["link"] in self.temp_solution]
             rand_img = random.choice(links)
 
             self.temp_solution.append(rand_img)
