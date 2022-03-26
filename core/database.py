@@ -67,6 +67,10 @@ class Database:
         self.con.close()
 
     @property
+    def raw(self) -> asyncpg.connection.Connection:
+        return self.con
+
+    @property
     async def ping(self) -> int:
         past = datetime.now()
         await self.con.fetchrow("SELECT * FROM guilds LIMIT 1")

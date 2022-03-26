@@ -1,6 +1,10 @@
+import json
+import random
+
 from typing import Tuple
 
 from disnake import ApplicationCommandInteraction, Message, Member, VoiceChannel
+from disnake.ext import tasks
 from disnake.ext.commands import Cog, slash_command, Param
 
 from core import Dispy, logger
@@ -24,6 +28,25 @@ together_apps = {
 class Activity(Cog, name='discord-together'):
     def __init__(self, bot: Dispy) -> None:
         self.bot = bot
+        self.monkey.start()
+
+    def cog_unload(self):
+        self.monkey.cancel()
+
+    @tasks.loop(minutes=1.0)
+    async def monkey(self):
+        await self.bot.wait_until_ready()
+        channel = self.bot.get_channel(814647436575244298)
+        url = f"https://www.googleapis.com/customsearch/v1?key={config.google.API_KEY}&cx={config.google.SEARCH_ENGINE_ID}&q=monkey&searchType=image"
+        print(url)
+
+        async with self.bot.http_session.get(url) as r:
+            print(r)
+            data = json.loads((await r.text()))
+            results = data['items']
+            img = random.choice(results)['link']
+
+        await channel.send(img)
 
     async def create_together_url(self, voice_channel_id: int, option: str) -> Tuple[str, bool]:
         data = {

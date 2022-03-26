@@ -5,6 +5,10 @@ bot:
   token: !ENV "DISCORD_TOKEN"
   status: "space invaders"
 
+google:
+  API_KEY: !ENV "GOOGLE_API_KEY"
+  SEARCH_ENGINE_ID: !ENV "SEARCH_ENGINE_ID"
+
 url:
   panda:
     love: "https://emoji.gg/assets/emoji/6308_PandaLove.png"
