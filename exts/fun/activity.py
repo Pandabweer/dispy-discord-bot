@@ -35,7 +35,7 @@ class Activity(Cog, name='discord-together'):
     def cog_unload(self):
         self.monkey.cancel()
 
-    @tasks.loop(minutes=1.0, reconnect=True)
+    @tasks.loop(minutes=10000.0, reconnect=True)
     async def monkey(self):
         await self.bot.wait_until_ready()
         channel = self.bot.get_channel(957359105977229403)
