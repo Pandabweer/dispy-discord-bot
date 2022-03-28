@@ -39,7 +39,7 @@ class Activity(Cog, name='discord-together'):
     async def monkey(self):
         await self.bot.wait_until_ready()
         channel = self.bot.get_channel(957359105977229403)
-        index = math.floor(len(self.temp_solution)/10) * 11
+        index = random.randint(0, 191)
         url = f"https://www.googleapis.com/customsearch/v1?key={config.google.API_KEY}&cx={config.google.SEARCH_ENGINE_ID}&q=monkey&searchType=image&start={index}"
 
         async with self.bot.http_session.get(url) as r:
